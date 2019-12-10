@@ -1,0 +1,56 @@
+device_tracker.netatmo_relay:
+  hidden: true
+person.alessandro_morgantini:
+  entity_picture: /local/alessandro.jpg
+person.elisa_valdambrini:
+  entity_picture: /local/elisa.jpg
+device_tracker.cellulare_elisa:
+  hidden: true
+device_tracker.amazon_bc5e0ae5f:
+  friendly_name: Amazon Fire TV Stick
+device_tracker.appletv:
+  friendly_name: Apple TV
+sensor.fritz_box_3490_kbyte_sec_received:
+  icon: mdi:download
+sensor.fritz_box_3490_kbyte_sec_sent:
+  icon: mdi:upload
+sensor.fritz_box_3490_bytes_received:
+  icon: mdi:download
+sensor.fritz_box_3490_bytes_sent:
+  icon: mdi:upload
+sensor.fritz_box_3490_packets_received:
+  icon: mdi:download
+sensor.fritz_box_3490_packets_sent:
+  icon: mdi:upload
+sensor.fritz_box_3490_packets_sec_received:
+  icon: mdi:download
+sensor.fritz_box_3490_packets_sec_sent:
+  icon: mdi:upload
+device_tracker.shellyplug_s_040ff2:
+  hidden: true
+device_tracker.pc_192_168_123_111:
+  friendly_name: Macintosh SE/30
+device_tracker.sonoff_5688:
+  hidden: true
+device_tracker.sonoff_1156:
+  hidden: true
+device_tracker.tasmota_0552:
+  hidden: true
+device_tracker.tasmota_4692:
+  hidden: true
+switch.piantana_salotto:
+  icon: mdi:lightbulb-outline
+switch.lampada_tv:
+  icon: mdi:lightbulb-outline
+group.family:
+  order: '1'
+group.computers:
+  order: '3'
+group.fritzbox:
+  order: '2'
+group.all_switches: {}
+device_tracker.elisa_valdambrini_s_mi_a2_lite:
+  hidden: true
+device_tracker.iphone_2:
+  friendly_name: iPhone di Ale
+  icon: mdi:cellphone-iphone

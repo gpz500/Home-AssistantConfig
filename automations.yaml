@@ -1,0 +1,231 @@
+- id: '1571937508647'
+  alias: Accendi la radio
+  description: Accende la radio quando Volumio inizia a riprodurre qualcosa
+  trigger:
+  - entity_id: binary_sensor.volumio_playing
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      entity_id: switch.modelone_switch
+    service: switch.turn_on
+- id: '1571938036340'
+  alias: Spegni la radio
+  description: Spegne la radio quando Volumio termina di riprodurre della musica
+  trigger:
+  - entity_id: binary_sensor.volumio_playing
+    for: 00:05:00
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - data:
+      entity_id: switch.modelone_switch
+    service: switch.turn_off
+- id: '1572268738647'
+  alias: Elisa esce
+  description: Manda una notifica quando Elisa esce di casa
+  trigger:
+  - entity_id: person.elisa_valdambrini
+    for: 00:05:00
+    platform: state
+    to: not_home
+  condition: []
+  action:
+  - data:
+      message: Elisa è uscita di casa
+      title: Elisa
+    service: notify.mobile_app_iphone
+- id: '1572271128242'
+  alias: Elisa rientra
+  description: Elisa rientra a casa
+  trigger:
+  - entity_id: person.elisa_valdambrini
+    for: 00:05:00
+    platform: state
+    to: home
+  condition: []
+  action:
+  - data:
+      message: Elisa è rientrata a casa
+      title: Elisa
+    service: notify.mobile_app_iphone
+- id: '1572282760974'
+  alias: Announces at Start
+  description: Manda un messaggio MQTT broadcast a tutti i dispositivi per innescare
+    l'invio del loro stato corrente
+  trigger:
+  - event: start
+    platform: homeassistant
+  condition: []
+  action:
+  - data:
+      payload: announce
+      topic: shellies/command
+    service: mqtt.publish
+  - data:
+      topic: cmnd/sonoffs/Power
+    service: mqtt.publish
+  - data:
+      topic: cmnd/tasmotas/Power
+    service: mqtt.publish
+- id: '1573315410172'
+  alias: Tutti a nanna
+  description: Avviso di andare a letto
+  trigger:
+  - at: '23:00'
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: switch.lampada_tv
+    service: switch.toggle
+  - delay: 00:00:01
+  - data:
+      entity_id: switch.lampada_tv
+    service: switch.toggle
+  - delay: 00:00:01
+  - data:
+      entity_id: switch.lampada_tv
+    service: switch.toggle
+  - delay: 00:00:01
+  - data:
+      entity_id: switch.lampada_tv
+    service: switch.toggle
+  - data:
+      entity_id: switch.modelone_switch
+    service: switch.turn_on
+  - data:
+      entity_id: media_player.volumio_volumio_local
+    service: media_player.clear_playlist
+  - data:
+      entity_id: media_player.volumio
+      volume_level: 0.55
+    service: media_player.volume_set
+  - data:
+      entity_id: media_player.volumio_mpd
+      message: Sono le undici... è ora di andare a letto!
+    service: tts.google_translate_say
+  - data:
+      entity_id: media_player.volumio_mpd
+    service: media_player.media_play
+- id: '1573386106921'
+  alias: Update Available
+  description: Send a notification when there is an Home Assistant update
+  trigger:
+  - entity_id: binary_sensor.updater
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      message: There is a new version of Home Assistant available
+      title: Home Assistant update
+    service: notify.mobile_app_iphone
+- id: '1573505785975'
+  alias: Spegni riscaldamento
+  description: ''
+  trigger:
+  - entity_id: group.family
+    from: home
+    platform: state
+  condition:
+  - condition: state
+    entity_id: input_select.riscaldamento
+    state: Auto
+  action:
+  - data:
+      entity_id: all
+      preset_mode: away
+    service: climate.set_preset_mode
+- id: '1573506017128'
+  alias: Accendi riscaldamento
+  description: Accende il riscaldamento quando qualcuno rientra in casa
+  trigger:
+  - entity_id: group.family
+    platform: state
+    to: home
+  condition:
+  - condition: state
+    entity_id: input_select.riscaldamento
+    state: Auto
+  action:
+  - data:
+      entity_id: all
+      preset_mode: Schedule
+    service: climate.set_preset_mode
+- id: '1573594570440'
+  alias: Forza riscaldamento on
+  description: ''
+  trigger:
+  - entity_id: input_select.riscaldamento
+    platform: state
+    to: 'On'
+  condition: []
+  action:
+  - data:
+      entity_id: all
+    service: climate.turn_on
+- id: '1573594652042'
+  alias: Forza riscaldamento off
+  description: ''
+  trigger:
+  - entity_id: input_select.riscaldamento
+    platform: state
+    to: 'Off'
+  condition: []
+  action:
+  - data:
+      entity_id: all
+    service: climate.turn_off
+- id: '1573594736631'
+  alias: Forza riscaldamento auto
+  description: ''
+  trigger:
+  - entity_id: input_select.riscaldamento
+    platform: state
+    to: Auto
+  condition: []
+  action:
+  - data_template:
+      entity_id: all
+      preset_mode: "{% if is_state('group.family', 'home') %}\n  Schedule\n{% else\
+        \ %}\n  away\n{% endif %}\n"
+    service: climate.set_preset_mode
+- id: '1573992437525'
+  alias: Spegni tutto
+  description: Spegne tutto quando l'ultimo esce di casa
+  trigger:
+  - entity_id: group.family
+    from: home
+    platform: state
+  condition: []
+  action:
+  - service: script.1573991163575
+- id: '1575578713738'
+  alias: Start Christmas Lights
+  description: Parte un timer quando si accendono le luci di Natale
+  trigger:
+  - entity_id: switch.ferro_da_stiro
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - data:
+      duration: 01:00:00
+      entity_id: timer.lucialbero
+    service: timer.start
+- id: '1575578833753'
+  alias: Switch off Christmas
+  description: Spegne le luci dell'albero di Natale
+  trigger:
+  - event_data:
+      entity_id: timer.lucialbero
+    event_type: timer.finished
+    platform: event
+  condition: []
+  action:
+  - data:
+      entity_id: switch.ferro_da_stiro
+    service: switch.turn_off

@@ -1,0 +1,203 @@
+# Configure a default setup of Home Assistant (frontend, api, etc)
+default_config:
+
+# Uncomment this if you are using SSL/TLS, running in Docker container, etc.
+http:
+  base_url: !secret http_base_url
+  ssl_certificate: !secret http_ssl_certificate
+  ssl_key: !secret http_ssl_key
+
+# Text to speech
+tts:
+  - platform: google_translate
+    language: 'it'
+
+group: !include groups.yaml
+automation: !include automations.yaml
+script: !include scripts.yaml
+homeassistant:
+  customize: !include customize.yaml
+  customize_glob:
+    "device_tracker.gpz500*":
+      hidden: true
+
+# Netatmo
+netatmo:
+  api_key: !secret netatmo_api_key
+  secret_key: !secret netatmo_secret_key
+  username: !secret netatmo_username
+  password: !secret netatmo_password
+
+# Discovery integration
+discovery:
+
+# iOS integration
+ios:
+
+# Device tracker
+device_tracker:
+  - platform: fritz
+    host: fritz.box
+
+# Define some zone
+zone:
+  - name: Work
+    latitude: !secret work_latitude
+    longitude: !secret work_longitude
+    icon: mdi:worker
+
+# MQTT
+mqtt:
+  broker: localhost
+  client_id: home-assistant
+  birth_message:
+    topic: 'hass/status'
+    payload: 'online'
+    qos: 0
+    retain: true
+  will_message:
+    topic: 'hass/status'
+    payload: 'offline'
+    qos: 0
+    retain: true
+
+# I miei switch
+switch:
+  - platform: mqtt
+    name: "ModelOne Switch"
+    state_topic: "shellies/shellyplug-s-040FF2/relay/0"
+    command_topic: "shellies/shellyplug-s-040FF2/relay/0/command"
+    availability_topic: "shellies/shellyplug-s-040FF2/online"
+    payload_on: "on"
+    payload_off: "off"
+    state_on: "on"
+    state_off: "off"
+    payload_available: "true"
+    payload_not_available: "false"
+    optimistic: false
+    qos: 0
+    retain: false
+  - platform: mqtt
+    name: "Piantana Salotto"
+    state_topic: "stat/piantana01/POWER"
+    command_topic: "cmnd/piantana01/Power"
+    payload_on: "on"
+    payload_off: "off"
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+  - platform: mqtt
+    name: "Lampada TV"
+    state_topic: "stat/lampadatv/POWER"
+    command_topic: "cmnd/lampadatv/Power"
+    payload_on: "on"
+    payload_off: "off"
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+  - platform: mqtt
+    name: "Ferro da stiro"
+    state_topic: "stat/ferrodastiro/POWER"
+    command_topic: "cmnd/ferrodastiro/Power"
+    payload_on: "on"
+    payload_off: "off"
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+  - platform: mqtt
+    name: "Base della piantana"
+    state_topic: "stat/tasmota000/POWER"
+    command_topic: "cmnd/tasmota000/Power"
+    payload_on: "on"
+    payload_off: "off"
+    state_on: "ON"
+    state_off: "OFF"
+    optimistic: false
+    qos: 0
+    retain: false
+
+# I miei sensori
+sensor:
+  - platform: mqtt
+    state_topic: "shellies/shellyplug-s-040FF2/relay/0/power"
+    availability_topic: "shellies/shellyplug-s-040FF2/online"
+    device_class: power
+    name: "ModelOne Power"
+    unit_of_measurement: "W"
+    payload_available: "true"
+    payload_not_available: "false"
+  - platform: mqtt
+    state_topic: "shellies/shellyplug-s-040FF2/temperature"
+    availability_topic: "shellies/shellyplug-s-040FF2/online"
+    device_class: temperature
+    unit_of_measurement: "°C"
+    name: "ModelOne Temperature"
+    payload_available: "true"
+    payload_not_available: "false"
+
+binary_sensor:
+  - platform: template
+    sensors:
+      riscaldamento_on:
+        friendly_name: "Riscaldamento On"
+        value_template: >-
+          {{ is_state('climate.netatmo_living_room', 'heat') }}
+      riscaldamento_off:
+        friendly_name: "Riscaldamento Off"
+        value_template: >-
+          {{ is_state('climate.netatmo_living_room', 'off') }}
+      riscaldamento_auto:
+        friendly_name: "Riscaldamento Auto"
+        value_template: >-
+          {{ is_state('climate.netatmo_living_room', 'auto') }}
+      volumio_playing:
+        friendly_name: "Volumio sta riproducendo"
+        value_template: >-
+          {{ is_state('media_player.volumio', 'playing') or is_state('media_player.volumio_mpd', 'playing') or is_state('media_player.volumio_volumio_local', 'playing') }}
+
+
+# Controllo per il riscaldamento
+input_select:
+  riscaldamento:
+    name: Riscaldamento
+    options:
+      - 'Off'
+      - 'Auto'
+      - 'On'
+    initial: 'Auto'
+
+# Interfaccia MPD per Volumio
+media_player:
+  - platform: mpd
+    host: volumio.fritz.box
+    name: volumio_mpd
+
+# Le mie scene
+scene:
+  - name: Tutto spento
+    entities:
+      switch.ferro_da_stiro: off
+      switch.lampada_tv: off
+      switch.modelone_switch: off
+      switch.piantana_salotto: off
+
+# HomeKit
+homekit:
+  filter:
+    include_entities:
+      - switch.lampada_tv
+      - switch.piantana_salotto
+      - switch.ferro_da_stiro
+      - switch.modelone_switch
+      - switch.base_della_piantana
+
+# Qualche timer
+timer:
+  lucialbero:
+    name: 'Luci albero di Natale'

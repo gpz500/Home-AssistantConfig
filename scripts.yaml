@@ -1,0 +1,25 @@
+'1573742567114':
+  alias: Tts test
+  sequence:
+  - data:
+      entity_id: media_player.volumio
+      message: Cagotto cagotto
+    service: tts.google_translate_say
+'1573991163575':
+  alias: Spegni tutto
+  sequence:
+  - data:
+      entity_id: scene.tutto_spento
+    service: scene.turn_on
+  - condition: state
+    entity_id: binary_sensor.volumio_playing
+    state: 'on'
+  - data:
+      entity_id: media_player.volumio_mpd
+    service: media_player.media_pause
+  - data:
+      entity_id: media_player.volumio
+    service: media_player.media_pause
+  - data:
+      entity_id: media_player.volumio_volumio_local
+    service: media_player.media_pause
