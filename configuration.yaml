@@ -80,44 +80,56 @@ switch:
   - platform: mqtt
     name: "Piantana Salotto"
     state_topic: "stat/piantana01/POWER"
-    command_topic: "cmnd/piantana01/Power"
-    payload_on: "on"
-    payload_off: "off"
+    command_topic: "cmnd/piantana01/POWER"
+    availability_topic: "tele/piantana01/LWT"
+    payload_on: "ON"
+    payload_off: "OFF"
     state_on: "ON"
     state_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     optimistic: false
     qos: 0
     retain: false
   - platform: mqtt
     name: "Lampada TV"
     state_topic: "stat/lampadatv/POWER"
-    command_topic: "cmnd/lampadatv/Power"
-    payload_on: "on"
-    payload_off: "off"
+    command_topic: "cmnd/lampadatv/POWER"
+    availability_topic: "tele/lampadatv/LWT"
+    payload_on: "ON"
+    payload_off: "OFF"
     state_on: "ON"
     state_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     optimistic: false
     qos: 0
     retain: false
   - platform: mqtt
     name: "Ferro da stiro"
     state_topic: "stat/ferrodastiro/POWER"
-    command_topic: "cmnd/ferrodastiro/Power"
-    payload_on: "on"
-    payload_off: "off"
+    command_topic: "cmnd/ferrodastiro/POWER"
+    availability_topic: "tele/ferrodastiro/LWT"
+    payload_on: "ON"
+    payload_off: "OFF"
     state_on: "ON"
     state_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     optimistic: false
     qos: 0
     retain: false
   - platform: mqtt
     name: "Base della piantana"
     state_topic: "stat/tasmota000/POWER"
-    command_topic: "cmnd/tasmota000/Power"
-    payload_on: "on"
-    payload_off: "off"
+    command_topic: "cmnd/tasmota000/POWER"
+    availability_topic: "tele/tasmota000/LWT"
+    payload_on: "ON"
+    payload_off: "OFF"
     state_on: "ON"
     state_off: "OFF"
+    payload_available: "Online"
+    payload_not_available: "Offline"
     optimistic: false
     qos: 0
     retain: false
@@ -140,6 +152,8 @@ sensor:
     name: "ModelOne Temperature"
     payload_available: "true"
     payload_not_available: "false"
+  - platform: cert_expiry
+    host: !secret cert_expiry_host
 
 binary_sensor:
   - platform: template

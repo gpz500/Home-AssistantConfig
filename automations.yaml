@@ -229,3 +229,16 @@
   - data:
       entity_id: switch.ferro_da_stiro
     service: switch.turn_off
+- id: '1576588965587'
+  alias: Nuovo certificato SSL
+  description: Avvisa quando c’è un nuovo certificato SSL
+  trigger:
+  - above: '83'
+    entity_id: sensor.ssl_certificate_expiry
+    platform: numeric_state
+  condition: []
+  action:
+  - data:
+      message: 'There is a new SSL certificate: install it!'
+      title: New SSL certificate
+    service: notify.mobile_app_iphone
