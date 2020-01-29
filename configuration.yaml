@@ -78,7 +78,7 @@ switch:
     qos: 0
     retain: false
   - platform: mqtt
-    name: "Piantana Salotto"
+    name: "Piantana"
     state_topic: "stat/piantana01/POWER"
     command_topic: "cmnd/piantana01/POWER"
     availability_topic: "tele/piantana01/LWT"
@@ -106,7 +106,7 @@ switch:
     qos: 0
     retain: false
   - platform: mqtt
-    name: "Ferro da stiro"
+    name: "Presa piantana"
     state_topic: "stat/ferrodastiro/POWER"
     command_topic: "cmnd/ferrodastiro/POWER"
     availability_topic: "tele/ferrodastiro/LWT"
@@ -119,20 +119,14 @@ switch:
     optimistic: false
     qos: 0
     retain: false
-  - platform: mqtt
-    name: "Base della piantana"
-    state_topic: "stat/tasmota000/POWER"
-    command_topic: "cmnd/tasmota000/POWER"
-    availability_topic: "tele/tasmota000/LWT"
-    payload_on: "ON"
+  - platform: "mqtt"
+    name: "Ferro da stiro"
+    state_topic: "zigbee2mqtt/tradfri_plug_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
     payload_off: "OFF"
-    state_on: "ON"
-    state_off: "OFF"
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    optimistic: false
-    qos: 0
-    retain: false
+    payload_on: "ON"
+    value_template: "{{ value_json.state }}"
+    command_topic: "zigbee2mqtt/tradfri_plug_1/set"
 
 # I miei sensori
 sensor:
@@ -154,6 +148,79 @@ sensor:
     payload_not_available: "false"
   - platform: cert_expiry
     host: !secret cert_expiry_host
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_light_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+    name: "Tradfri Light 1"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_light_2"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+    name: "Tradfri Light 2"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_light_3"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+    name: "Tradfri Light 3"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_dimmer_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "brightness"
+    icon: "mdi:brightness-5"
+    value_template: "{{ value_json.brightness }}"
+    name: "Tradfri Dimmer 1"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_dimmer_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+    name: "Tradfri Dimmer 1 - Battery"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_dimmer_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    icon: "mdi:gesture-double-tap"
+    value_template: "{{ value_json.action }}"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_dimmer_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+  - platform: mqtt
+    name: Zigbee2mqtt Networkmap
+    # if you change base_topic of Zigbee2mqtt, change state_topic accordingly
+    state_topic: zigbee2mqtt/bridge/networkmap/raw
+    value_template: >-
+      {{ now().strftime('%Y-%m-%d %H:%M:%S') }}
+    # again, if you change base_topic of Zigbee2mqtt, change json_attributes_topic accordingly
+    json_attributes_topic: zigbee2mqtt/bridge/networkmap/raw
+  - platform: "mqtt"
+    name: "Ferro da stiro"
+    state_topic: "zigbee2mqtt/tradfri_plug_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_button_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    icon: "mdi:toggle-switch"
+    value_template: "{{ value_json.click }}"
+    name: Tradfri Button 1
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_button_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtttradfri_button_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
 
 binary_sensor:
   - platform: template
@@ -198,17 +265,18 @@ scene:
       switch.ferro_da_stiro: off
       switch.lampada_tv: off
       switch.modelone_switch: off
-      switch.piantana_salotto: off
+      switch.piantana: off
 
 # HomeKit
 homekit:
   filter:
     include_entities:
       - switch.lampada_tv
-      - switch.piantana_salotto
+      - switch.piantana
       - switch.ferro_da_stiro
       - switch.modelone_switch
-      - switch.base_della_piantana
+      - switch.presa_piantana
+      - light.tradfri_light_1
 
 # Qualche timer
 timer:
@@ -221,10 +289,36 @@ recorder:
     entities:
       - sensor.fritz_box_3490_bytes_received
       - sensor.fritz_box_3490_bytes_sent
-      - sensor.fritz_box_3490_kbytes_sec_received
-      - sensor.fritz_box_3490_kbytes_sec_sent
+      - sensor.fritz_box_3490_kb_sec_received
+      - sensor.fritz_box_3490_kb_sec_sent
       - sensor.fritz_box_3490_packets_received
       - sensor.fritz_box_3490_packets_sent
       - sensor.fritz_box_3490_packets_sec_received
       - sensor.fritz_box_3490_packets_sec_sent
 
+# Le mie luci
+light:
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_light_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    brightness: true
+    color_temp: true
+    schema: "json"
+    command_topic: "zigbee2mqtt/tradfri_light_1/set"
+    name: "Tradfri Light 1"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_light_2"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    brightness: true
+    color_temp: true
+    schema: "json"
+    command_topic: "zigbee2mqtt/tradfri_light_2/set"
+    name: "Tradfri Light 2"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_light_3"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    brightness: true
+    color_temp: true
+    schema: "json"
+    command_topic: "zigbee2mqtt/tradfri_light_3/set"
+    name: "Tradfri Light 3"

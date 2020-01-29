@@ -242,3 +242,36 @@
       message: 'There is a new SSL certificate: install it!'
       title: New SSL certificate
     service: notify.mobile_app_iphone
+- id: regola-luminosita-1
+  alias: Regola la luminosità
+  trigger:
+  - platform: state
+    entity_id: sensor.tradfri_dimmer_1
+  condition: []
+  action:
+  - service: light.turn_on
+    entity_id: light.tradfri_light_1
+    data_template:
+      brightness: '{{ trigger.to_state.state|int }}'
+- id: '1579983792391'
+  alias: Accendi ferro da stiro
+  description: Accende il ferro da stiro con il pulsante Ikea Trådfri
+  trigger:
+  - entity_id: sensor.tradfri_button_1
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: switch.ferro_da_stiro
+    service: switch.turn_on
+- id: '1579983951306'
+  alias: Spegni ferro da stiro
+  description: Spegne il ferro da stiro con il pulsante Ikea Trådfri
+  trigger:
+  - entity_id: sensor.tradfri_button_1
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - entity_id: switch.ferro_da_stiro
+    service: switch.turn_off

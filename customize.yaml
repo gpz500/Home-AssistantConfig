@@ -54,3 +54,11 @@ device_tracker.elisa_valdambrini_s_mi_a2_lite:
 device_tracker.iphone_2:
   friendly_name: iPhone di Ale
   icon: mdi:cellphone-iphone
+sensor.fritz_box_3490_kb_sec_received:
+  icon: mdi:download
+sensor.fritz_box_3490_kb_sec_sent:
+  icon: mdi:upload
+switch.piantana:
+  icon: mdi:lightbulb-outline
+light.tradfri_light_1:
+  friendly_name: Luce TV

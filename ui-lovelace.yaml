@@ -1,0 +1,227 @@
+title: Buffalmacco
+resources:
+  - url: /local/zigbee2mqtt-networkmap.js?v=0.6.0
+    type: module    
+views:
+  - badges:
+      - entity: binary_sensor.updater
+      - entity: person.alessandro_morgantini
+      - entity: person.elisa_valdambrini
+      - entity: sun.sun
+    cards:
+      - entity: weather.buffalmacco
+        type: weather-forecast
+      - entities:
+          - entity: switch.lampada_tv
+          - entity: switch.piantana_salotto
+          - entity: switch.base_della_piantana
+        title: Salotto
+        type: entities
+      - entity: switch.ferro_da_stiro
+        hold_action:
+          action: more-info
+        show_icon: true
+        show_name: true
+        tap_action:
+          action: toggle
+        type: entity-button
+      - entity: binary_sensor.riscaldamento_off
+        hold_action:
+          action: none
+        icon: 'mdi:home-thermometer'
+        name: Riscaldamento Off
+        show_icon: true
+        show_name: true
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.riscaldamento
+            option: 'Off'
+        type: entity-button
+      - entity: binary_sensor.riscaldamento_auto
+        hold_action:
+          action: none
+        icon: 'mdi:thermostat'
+        name: Riscaldamento Auto
+        show_icon: true
+        show_name: true
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.riscaldamento
+            option: Auto
+        type: entity-button
+      - entity: binary_sensor.riscaldamento_on
+        hold_action:
+          action: more-info
+        icon: 'mdi:home-thermometer-outline'
+        name: Riscaldamento On
+        show_icon: true
+        show_name: true
+        tap_action:
+          action: call-service
+          service: input_select.select_option
+          service_data:
+            entity_id: input_select.riscaldamento
+            option: 'On'
+        type: entity-button
+      - entity: script.1573991163575
+        hold_action:
+          action: more-info
+        name: Spegni tutto
+        show_icon: true
+        show_name: true
+        tap_action:
+          action: call-service
+          service: script.1573991163575
+          service_data:
+            entity_id: scene.tutto_spento
+        type: entity-button
+    path: default_view
+    title: Home
+  - badges: []
+    cards:
+      - entity: media_player.volumio_volumio_local
+        type: media-control
+      - entity: media_player.apple_tv
+        type: media-control
+      - entity: media_player.kodi_android_local
+        type: media-control
+      - entity: media_player.volumio
+        type: media-control
+      - entities:
+          - remote.apple_tv
+        title: Telecomando
+        type: entities
+      - entities:
+          - device_tracker.amazon_bc5e0ae5f
+          - device_tracker.appletv
+          - device_tracker.volumio
+          - sensor.plex_monsterino
+        show_header_toggle: true
+        title: Media Objects
+        type: entities
+      - entities:
+          - switch.modelone_switch
+          - sensor.modelone_power
+          - sensor.modelone_temperature
+        show_header_toggle: true
+        title: ModelOne
+        type: entities
+      - entity: media_player.volumio_mpd
+        type: media-control
+    path: multimedia
+    title: Multimedia
+  - badges: []
+    cards:
+      - entity: climate.netatmo_living_room
+        name: Salotto
+        type: thermostat
+      - entities:
+          - entity: climate.netatmo_living_room
+        hours_to_show: 24
+        refresh_interval: 0
+        title: Salotto
+        type: history-graph
+      - entity: climate.netatmo_bedroom
+        name: Camera
+        type: thermostat
+      - entities:
+          - entity: climate.netatmo_bedroom
+        hours_to_show: 24
+        refresh_interval: 0
+        title: Camera
+        type: history-graph
+      - entities:
+          - input_select.riscaldamento
+        title: Input selezione
+        type: entities
+    path: termo
+    title: Termo
+  - badges: []
+    cards:
+      - entities:
+          - device_tracker.mac_di_ale
+          - device_tracker.macviper
+          - device_tracker.monsterino
+          - device_tracker.pc_192_168_123_135
+          - device_tracker.ipaddiargantini
+          - device_tracker.hpiccino
+          - device_tracker.pc_192_168_123_111
+          - device_tracker.nintendo_3ds
+        show_header_toggle: true
+        title: Computers
+        type: entities
+      - entities:
+          - entity: device_tracker.fritz_box
+          - entity: sensor.fritz_box_3490_bytes_received
+          - entity: sensor.fritz_box_3490_bytes_sent
+          - entity: sensor.fritz_box_3490_kb_sec_received
+          - entity: sensor.fritz_box_3490_kb_sec_sent
+          - entity: sensor.fritz_box_3490_packets_received
+          - entity: sensor.fritz_box_3490_packets_sec_received
+          - entity: sensor.fritz_box_3490_packets_sec_sent
+          - entity: sensor.fritz_box_3490_packets_sent
+        show_header_toggle: true
+        title: FRITZ!Box 3490
+        type: entities
+      - entities:
+          - entity: automation.announces_at_start
+          - entity: automation.forza_riscaldamento_off
+          - entity: automation.forza_riscaldamento_auto
+          - entity: automation.forza_riscaldamento_on
+          - entity: automation.accendi_riscaldamento
+          - entity: automation.spegni_riscaldamento
+          - entity: automation.tutti_a_nanna
+          - entity: automation.spegni_tutto
+          - entity: automation.elisa_esce
+          - entity: automation.elisa_rientra
+          - entity: automation.accendi_la_radio
+          - entity: automation.spegni_la_radio
+          - entity: automation.update_available
+        title: Automazione
+        type: entities
+      - entities:
+          - entity: device_tracker.iphone_2
+          - entity: sensor.battery_state
+          - entity: sensor.battery_level
+          - entity: sensor.activity
+          - entity: sensor.steps
+          - entity: sensor.distance
+          - entity: sensor.floors_ascended
+          - entity: sensor.floors_descended
+          - entity: sensor.average_active_pace
+        show_header_toggle: true
+        title: iPhone di Ale
+        type: entities
+    path: retrobottega
+    title: Retrobottega
+  - title: Zigbee Network
+    panel: true # this renders the first card on full width, other cards in this view will not be rendered
+    cards:
+      - type: custom:zigbee2mqtt-networkmap
+        entity: sensor.zigbee2mqtt_networkmap
+        # the following are optional:
+        mqtt_base_topic: zigbee2mqtt # if you change base_topic of Zigbee2mqtt, change it accordingly
+        force: 3000 # decrease it to get smaller map if you have many devices
+        node_size: 16
+        font_size: 12
+        link_width: 2
+        height: 400 # height of the card
+        # use this css config or use whatever css tech to change look and feel,
+        # the same variable can also be used in Home Assistant themes, see https://www.home-assistant.io/components/frontend/#defining-themes
+        css: |
+          :host {
+            --zigbee2mqtt-networkmap-node-color: rgba(18, 120, 98, .7);
+            --zigbee2mqtt-networkmap-node-fill-color: #dcfaf3;
+            --zigbee2mqtt-networkmap-node-pinned-color: rgba(190, 56, 93, .6);
+            --zigbee2mqtt-networkmap-link-color: rgba(18, 120, 98, .5);
+            --zigbee2mqtt-networkmap-hover-color: #be385d;
+            --zigbee2mqtt-networkmap-link-selected-color: rgba(202, 164, 85, .6);
+            --zigbee2mqtt-networkmap-label-color: #127862;
+            --zigbee2mqtt-networkmap-arrow-color: rgba(18, 120, 98, 0.7);
+            --zigbee2mqtt-networkmap-node-coordinator-color: rgba(224, 78, 93, .7);
+            --zigbee2mqtt-networkmap-node-router-color: rgba(0, 165, 255, .7);
+          }
