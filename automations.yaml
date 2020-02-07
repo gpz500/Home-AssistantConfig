@@ -275,3 +275,25 @@
   action:
   - entity_id: switch.ferro_da_stiro
     service: switch.turn_off
+- id: '1580408010542'
+  alias: Accendi corridoio
+  description: Accende il corridoio usando il motivo sensor Ikea Trådfri
+  trigger:
+  - entity_id: binary_sensor.tradfri_motion_1
+    platform: state
+    to: 'on'
+  condition: []
+  action:
+  - entity_id: light.luci_corridoio
+    service: light.turn_on
+- id: '1580408108708'
+  alias: Spegni corridoio
+  description: Spegne il corridoio quando lo dice il motion sensor Ikea Trådfri
+  trigger:
+  - entity_id: binary_sensor.tradfri_motion_1
+    platform: state
+    to: 'off'
+  condition: []
+  action:
+  - entity_id: light.luci_corridoio
+    service: light.turn_off

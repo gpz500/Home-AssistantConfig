@@ -217,12 +217,31 @@ sensor:
     device_class: "battery"
     value_template: "{{ value_json.battery }}"
   - platform: "mqtt"
-    state_topic: "zigbee2mqtttradfri_button_1"
+    state_topic: "zigbee2mqtt/tradfri_button_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_motion_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "%"
+    device_class: "battery"
+    value_template: "{{ value_json.battery }}"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_motion_1"
     availability_topic: "zigbee2mqtt/bridge/state"
     unit_of_measurement: "-"
     value_template: "{{ value_json.linkquality }}"
 
 binary_sensor:
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_motion_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    payload_on: true
+    payload_off: false
+    value_template: "{{ value_json.occupancy }}"
+    device_class: "motion"
+    name: "Tradfri Motion 1"
   - platform: template
     sensors:
       riscaldamento_on:
@@ -322,3 +341,9 @@ light:
     schema: "json"
     command_topic: "zigbee2mqtt/tradfri_light_3/set"
     name: "Tradfri Light 3"
+  - platform: group
+    name: Luci corridoio
+    entities:
+      - light.tradfri_light_2
+      - light.tradfri_light_3
+
