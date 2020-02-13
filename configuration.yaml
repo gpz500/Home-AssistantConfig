@@ -23,10 +23,8 @@ homeassistant:
 
 # Netatmo
 netatmo:
-  api_key: !secret netatmo_api_key
-  secret_key: !secret netatmo_secret_key
-  username: !secret netatmo_username
-  password: !secret netatmo_password
+  client_id: !secret netatmo_api_key
+  client_secret: !secret netatmo_secret_key
 
 # Discovery integration
 discovery:
@@ -232,6 +230,8 @@ sensor:
     availability_topic: "zigbee2mqtt/bridge/state"
     unit_of_measurement: "-"
     value_template: "{{ value_json.linkquality }}"
+  - platform: fritzbox_netmonitor
+    host: fritz.box
 
 binary_sensor:
   - platform: "mqtt"
@@ -259,7 +259,7 @@ binary_sensor:
       volumio_playing:
         friendly_name: "Volumio sta riproducendo"
         value_template: >-
-          {{ is_state('media_player.volumio', 'playing') or is_state('media_player.volumio_mpd', 'playing') or is_state('media_player.volumio_volumio_local', 'playing') }}
+          {{ is_state('media_player.volumio', 'playing') or is_state('media_player.volumio_mpd', 'playing') }}
 
 
 # Controllo per il riscaldamento
@@ -276,6 +276,11 @@ media_player:
   - platform: mpd
     host: volumio.fritz.box
     name: volumio_mpd
+  - platform: volumio
+    host: volumio.fritz.box
+  - platform: kodi
+    host: amazon-bc5e0ae5f.fritz.box
+    name: Kodi on Fire TV Stick
 
 # Le mie scene
 scene:
@@ -296,6 +301,7 @@ homekit:
       - switch.modelone_switch
       - switch.presa_piantana
       - light.tradfri_light_1
+      - light.luci_corridoio
 
 # Qualche timer
 timer:

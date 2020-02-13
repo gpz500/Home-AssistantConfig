@@ -107,9 +107,6 @@
       entity_id: media_player.volumio_mpd
       message: Sono le undici... è ora di andare a letto!
     service: tts.google_translate_say
-  - data:
-      entity_id: media_player.volumio_mpd
-    service: media_player.media_play
 - id: '1573386106921'
   alias: Update Available
   description: Send a notification when there is an Home Assistant update
@@ -277,7 +274,7 @@
     service: switch.turn_off
 - id: '1580408010542'
   alias: Accendi corridoio
-  description: Accende il corridoio usando il motivo sensor Ikea Trådfri
+  description: Accende il corridoio usando il motion sensor Ikea Trådfri
   trigger:
   - entity_id: binary_sensor.tradfri_motion_1
     platform: state
