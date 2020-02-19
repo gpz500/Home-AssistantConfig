@@ -28,6 +28,9 @@ netatmo:
 
 # Discovery integration
 discovery:
+  ignore:
+    - kodi
+    - volumio
 
 # iOS integration
 ios:
@@ -36,6 +39,8 @@ ios:
 device_tracker:
   - platform: fritz
     host: fritz.box
+    new_device_defaults:
+      track_new_devices: true
 
 # Define some zone
 zone:
@@ -165,6 +170,12 @@ sensor:
     value_template: "{{ value_json.linkquality }}"
     name: "Tradfri Light 3"
   - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_light_4"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    unit_of_measurement: "-"
+    value_template: "{{ value_json.linkquality }}"
+    name: "Tradfri Light 4"
+  - platform: "mqtt"
     state_topic: "zigbee2mqtt/tradfri_dimmer_1"
     availability_topic: "zigbee2mqtt/bridge/state"
     unit_of_measurement: "brightness"
@@ -290,6 +301,7 @@ scene:
       switch.lampada_tv: off
       switch.modelone_switch: off
       switch.piantana: off
+      light.luci_corridoio: off
 
 # HomeKit
 homekit:
@@ -302,6 +314,7 @@ homekit:
       - switch.presa_piantana
       - light.tradfri_light_1
       - light.luci_corridoio
+      - light.tradfri_light_4
 
 # Qualche timer
 timer:
@@ -352,4 +365,11 @@ light:
     entities:
       - light.tradfri_light_2
       - light.tradfri_light_3
-
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/tradfri_light_4"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    brightness: true
+    color_temp: true
+    schema: "json"
+    command_topic: "zigbee2mqtt/tradfri_light_4/set"
+    name: "Tradfri Light 4"

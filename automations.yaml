@@ -28,9 +28,8 @@
   description: Manda una notifica quando Elisa esce di casa
   trigger:
   - entity_id: person.elisa_valdambrini
-    for: 00:05:00
+    from: home
     platform: state
-    to: not_home
   condition: []
   action:
   - data:
@@ -42,7 +41,6 @@
   description: Elisa rientra a casa
   trigger:
   - entity_id: person.elisa_valdambrini
-    for: 00:05:00
     platform: state
     to: home
   condition: []
@@ -242,14 +240,14 @@
 - id: regola-luminosita-1
   alias: Regola la luminosità
   trigger:
-  - platform: state
-    entity_id: sensor.tradfri_dimmer_1
+  - entity_id: sensor.tradfri_dimmer_1
+    platform: state
   condition: []
   action:
-  - service: light.turn_on
-    entity_id: light.tradfri_light_1
-    data_template:
+  - data_template:
       brightness: '{{ trigger.to_state.state|int }}'
+    entity_id: light.tradfri_light_4
+    service: light.turn_on
 - id: '1579983792391'
   alias: Accendi ferro da stiro
   description: Accende il ferro da stiro con il pulsante Ikea Trådfri
