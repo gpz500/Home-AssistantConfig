@@ -17,9 +17,6 @@ automation: !include automations.yaml
 script: !include scripts.yaml
 homeassistant:
   customize: !include customize.yaml
-  customize_glob:
-    "device_tracker.gpz500*":
-      hidden: true
 
 # Netatmo
 netatmo:
@@ -373,3 +370,7 @@ light:
     schema: "json"
     command_topic: "zigbee2mqtt/tradfri_light_4/set"
     name: "Tradfri Light 4"
+
+# A script to get new TLS certificate
+shell_command:
+  get_certificate: /home/homeassistant/bin/get_certificate.sh

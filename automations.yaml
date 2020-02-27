@@ -237,6 +237,7 @@
       message: 'There is a new SSL certificate: install it!'
       title: New SSL certificate
     service: notify.mobile_app_iphone
+  - service: shell_command.get_certificate
 - id: regola-luminosita-1
   alias: Regola la luminosità
   trigger:
