@@ -94,8 +94,8 @@
   - data:
       entity_id: switch.modelone_switch
     service: switch.turn_on
-  - data:
-      entity_id: media_player.volumio_volumio_local
+  - data: {}
+    entity_id: media_player.volumio
     service: media_player.clear_playlist
   - data:
       entity_id: media_player.volumio
@@ -293,3 +293,27 @@
   action:
   - entity_id: light.luci_corridoio
     service: light.turn_off
+- id: '1583944271379'
+  alias: Spegni automazione corridoio
+  description: Spegne l'automazione del corridoio 45 minuti dopo il sorgere del sole
+  trigger:
+  - at: 08:15:00
+    platform: time
+  condition: []
+  action:
+  - data:
+      entity_id: automation.accendi_corridoio
+    service: automation.turn_off
+- id: '1583944506098'
+  alias: Accendi automazione corridoio
+  description: Accende l'automazione per accendere la luce in corridoio 45 prima del
+    tramonto
+  trigger:
+  - event: sunset
+    offset: -00:30:00
+    platform: sun
+  condition: []
+  action:
+  - data:
+      entity_id: automation.accendi_corridoio
+    service: automation.turn_on
