@@ -377,3 +377,9 @@ light:
 # A script to get new TLS certificate
 shell_command:
   get_certificate: /home/homeassistant/bin/get_certificate.sh
+
+# Access to Nextcloud instance
+nextcloud:
+  url: !secret nextcloud_url
+  username: !secret nextcloud_username
+  password: !secret nextcloud_password
