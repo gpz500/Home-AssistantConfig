@@ -127,6 +127,14 @@ switch:
     payload_on: "ON"
     value_template: "{{ value_json.state }}"
     command_topic: "zigbee2mqtt/tradfri_plug_1/set"
+  - platform: "mqtt"
+    name: "Lampada scrivania"
+    state_topic: "zigbee2mqtt/sonoff_basiczbr3_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    payload_off: "OFF"
+    payload_on: "ON"
+    value_template: "{{ value_json.state }}"
+    command_topic: "zigbee2mqtt/sonoff_basiczbr3_1/set"
 
 # I miei sensori
 sensor:
@@ -287,8 +295,6 @@ media_player:
   - platform: mpd
     host: volumio.fritz.box
     name: volumio_mpd
-  - platform: volumio
-    host: volumio.fritz.box
   - platform: kodi
     host: amazon-bc5e0ae5f.fritz.box
     name: Kodi on Fire TV Stick
@@ -302,6 +308,7 @@ scene:
       switch.modelone_switch: off
       switch.piantana: off
       light.luci_corridoio: off
+      switch.lampada_scrivania: off
 
 # HomeKit
 homekit:
@@ -315,6 +322,7 @@ homekit:
       - light.tradfri_light_1
       - light.luci_corridoio
       - light.tradfri_light_4
+      - switch.lampada_scrivania
 
 # Qualche timer
 timer:

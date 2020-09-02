@@ -62,3 +62,5 @@ switch.piantana:
   icon: mdi:lightbulb-outline
 light.tradfri_light_1:
   friendly_name: Luce TV
+switch.lampada_scrivania:
+  icon: mdi:lightbulb-outline
