@@ -27,7 +27,7 @@ netatmo:
 discovery:
   ignore:
     - kodi
-    - volumio
+    - openhome
 
 # iOS integration
 ios:
