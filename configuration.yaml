@@ -278,7 +278,7 @@ binary_sensor:
       volumio_playing:
         friendly_name: "Volumio sta riproducendo"
         value_template: >-
-          {{ is_state('media_player.volumio', 'playing') or is_state('media_player.volumio_mpd', 'playing') }}
+          {{ is_state('media_player.volumio_2', 'playing') or is_state('media_player.volumio_mpd', 'playing') }}
 
 
 # Controllo per il riscaldamento

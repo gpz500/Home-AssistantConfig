@@ -95,10 +95,10 @@
       entity_id: switch.modelone_switch
     service: switch.turn_on
   - data: {}
-    entity_id: media_player.volumio
+    entity_id: media_player.volumio_2
     service: media_player.clear_playlist
   - data:
-      entity_id: media_player.volumio
+      entity_id: media_player.volumio_2
       volume_level: 0.55
     service: media_player.volume_set
   - data:
