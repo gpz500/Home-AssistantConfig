@@ -64,3 +64,11 @@ light.tradfri_light_1:
   friendly_name: Luce TV
 switch.lampada_scrivania:
   icon: mdi:lightbulb-outline
+sensor.mqtt_sensor_4:
+  friendly_name: Xiaomi T&H Battery
+sensor.mqtt_sensor_7:
+  friendly_name: Xiaomi T&H Signal
+sensor.mqtt_sensor_6:
+  friendly_name: Xiaomi T&H Humidity
+sensor.mqtt_sensor_5:
+  friendly_name: Xiaomi T&H Temperature

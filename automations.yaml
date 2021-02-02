@@ -208,9 +208,10 @@
   condition: []
   action:
   - data:
-      duration: 01:00:00
+      duration: 06:00:00
       entity_id: timer.lucialbero
     service: timer.start
+  mode: single
 - id: '1575578833753'
   alias: Switch off Christmas
   description: Spegne le luci dell'albero di Natale
