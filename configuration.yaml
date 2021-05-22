@@ -32,13 +32,6 @@ discovery:
 # iOS integration
 ios:
 
-# Device tracker
-device_tracker:
-  - platform: fritz
-    host: fritz.box
-    new_device_defaults:
-      track_new_devices: true
-
 # Define some zone
 zone:
   - name: Work
