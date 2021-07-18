@@ -2,10 +2,10 @@
 default_config:
 
 # Uncomment this if you are using SSL/TLS, running in Docker container, etc.
-#http:
-#  base_url: !secret http_base_url
-#  ssl_certificate: !secret http_ssl_certificate
-#  ssl_key: !secret http_ssl_key
+http:
+  use_x_forwarded_for: true
+  trusted_proxies:
+    - 127.0.0.1
 
 # Text to speech
 tts:
@@ -128,6 +128,14 @@ switch:
     payload_on: "ON"
     value_template: "{{ value_json.state }}"
     command_topic: "zigbee2mqtt/sonoff_basiczbr3_1/set"
+  - platform: "mqtt"
+    name: "Presa Lidl"
+    state_topic: "zigbee2mqtt/lidl_switch_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    payload_off: "OFF"
+    payload_on: "ON"
+    value_template: "{{ value_json.state }}"
+    command_topic: "zigbee2mqtt/lidl_switch_1/set"
 
 # I miei sensori
 sensor:
@@ -267,6 +275,12 @@ sensor:
     availability_topic: "zigbee2mqtt/bridge/state"
     unit_of_measurement: "lqi"
     value_template: "{{ value_json.linkquality }}"
+    icon: "mdi:signal"
+  - platform: "mqtt"
+    state_topic: "zigbee2mqtt/lidl_switch_1"
+    availability_topic: "zigbee2mqtt/bridge/state"
+    value_template: "{{ value_json.linkquality }}"
+    unit_of_measurement: "lqi"
     icon: "mdi:signal"
 
 binary_sensor:
